@@ -48,7 +48,7 @@ const testCases: Array<{
   },
   {
     input: "./input/day-01-advanced-02.txt",
-    output: 142,
+    output: 54249,
   },
 ];
 

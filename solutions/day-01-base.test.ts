@@ -23,11 +23,11 @@ const testCases: Array<{
 }> = [
   {
     input: "./input/day-01-base-01.txt",
-    output: 281,
+    output: 142,
   },
   {
     input: "./input/day-01-base-02.txt",
-    output: 142,
+    output: 53194,
   },
 ];
 
