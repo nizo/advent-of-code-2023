@@ -111,7 +111,7 @@ const testCases: Array<{
 	},
 	{
 		input: "./input/day-05-base-02.txt",
-		output: 26426,
+		output: 11554135,
 	},
 ];
 
