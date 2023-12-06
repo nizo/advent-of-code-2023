@@ -4,7 +4,8 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"start-base": "bun test --watch solutions/day-%day%-base.test.ts",
+		"start-advanced": "bun test --watch solutions/day-%day%-advanced.test.ts"
 	},
 	"author": "",
 	"license": "ISC",
