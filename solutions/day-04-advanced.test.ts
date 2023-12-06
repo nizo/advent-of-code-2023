@@ -59,7 +59,7 @@ const testCases: Array<{
 	},
 ];
 
-describe("advent-of-code-2023 #3", () => {
+describe("advent-of-code-2023 #4", () => {
 	test.each(testCases)("", async (item) => {
 		const result = await solution(item.input);
 		expect(result).toEqual(item.output);
