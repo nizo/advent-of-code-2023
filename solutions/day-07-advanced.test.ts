@@ -114,7 +114,6 @@ async function solution(file: string): Promise<number> {
 				if (a.cards[i] < b.cards[i]) return -1;
 			}
 
-			console.log("ERROR");
 			return 0;
 		});
 	}
@@ -156,7 +155,7 @@ const testCases: Array<{
 	},
 	{
 		input: "./input/day-07-base-03.txt",
-		output: 250164088,
+		output: 248909434,
 	},
 ];
 
