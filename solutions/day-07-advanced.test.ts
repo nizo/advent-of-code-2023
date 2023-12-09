@@ -1,5 +1,4 @@
 import { test, expect, describe } from "bun:test";
-import fs from "fs";
 
 enum HandTypeEnum {
 	"FiveOfAKind",
@@ -131,12 +130,6 @@ async function solution(file: string): Promise<number> {
 	const sum = result.reduce((acc, item, i) => {
 		return acc + item.bet * (i + 1);
 	}, 0);
-
-	fs.writeFile("out.json", JSON.stringify(result), (err) => {
-		if (err) {
-			console.error(err);
-		}
-	});
 
 	return sum;
 }
