@@ -11,51 +11,25 @@ let map: string[][] = [];
 
 const computeInnerArea = (node: Path): number => {
 	let nodesWithinPath = 0;
-	const horizontalData: Path = {};
-	const verticalData: Path = {};
+	const nodesInside: Path = {};
 
 	for (let y = 0; y < map.length; y++) {
-		let crossedBoundaries = 0;
+		let isWithinPath = false;
 		for (let x = 0; x < map[y].length; x++) {
 			const currentItem = map[y][x];
-			if (node[y] && node[y][x]) crossedBoundaries++;
-
-			if (currentItem == "." && crossedBoundaries % 2 != 0) {
-				if (!horizontalData[y]) horizontalData[y] = {};
-				horizontalData[y][x] = 1;
+			if (node[y] && node[y][x]) {
+				if (currentItem === "|") isWithinPath = !isWithinPath;
+				else if (currentItem === "7" && map[y + 1][x] === "L") isWithinPath = !isWithinPath;
+				else if (currentItem === "J" && map[y - 1][x] === "F") isWithinPath = !isWithinPath;
 			}
-		}
-	}
 
-	for (let x = 0; x < map[0].length; x++) {
-		let crossedBoundaries = 0;
-		for (let y = 0; y < map.length; y++) {
-			const currentItem = map[y][x];
-			if (node[y] && node[y][x]) crossedBoundaries++;
-
-			if (currentItem == "." && crossedBoundaries % 2 != 0) {
-				if (!verticalData[y]) verticalData[y] = {};
-				verticalData[y][x] = 1;
-			}
-		}
-	}
-
-	const yKeys = Object.keys(horizontalData);
-
-	for (let yKey of yKeys) {
-		const yKeyAsNumber = parseInt(yKey);
-		const xKeys = Object.keys(horizontalData[yKeyAsNumber]);
-		for (let xKey of xKeys) {
-			if (verticalData[yKeyAsNumber] && verticalData[yKeyAsNumber][parseInt(xKey)]) {
+			if (currentItem == "." && isWithinPath) {
+				console.log(y, x);
 				nodesWithinPath++;
-				console.log("match", yKeyAsNumber, xKey);
 			}
 		}
 	}
 
-	//console.log("intersection", nodesWithinPath);
-	console.log(horizontalData);
-	console.log(verticalData);
 	return nodesWithinPath;
 };
 
@@ -156,18 +130,18 @@ const testCases: Array<{
 	input: string;
 	output: number;
 }> = [
-	// {
-	// 	input: "./input/day-10-advanced-01a.txt",
-	// 	output: 4,
-	// },
+	{
+		input: "./input/day-10-advanced-01a.txt",
+		output: 4,
+	},
 	// {
 	// 	input: "./input/day-10-advanced-01b.txt",
 	// 	output: 4,
 	// },
-	{
-		input: "./input/day-10-advanced-02.txt",
-		output: 8,
-	},
+	// {
+	// 	input: "./input/day-10-advanced-02.txt",
+	// 	output: 8,
+	// },
 	// {
 	// 	input: "./input/day-10-advanced-03.txt",
 	// 	output: 6690,
