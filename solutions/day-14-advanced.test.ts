@@ -1,4 +1,3 @@
-import { hash } from "bun";
 import { test, expect, describe } from "bun:test";
 
 const transpose = (s: string[]): string[] => {
@@ -74,69 +73,45 @@ const getValue = (s: string[]): number => {
 	return result;
 };
 
-const equals = (s1: string[], s2: string[]): boolean => {
-	if (s1.length !== s2.length) return false;
+const findCycle = (
+	s: number[]
+): {
+	cycleStart: number;
+	cycleLength: number;
+} | null => {
+	let slowIndex = 0;
+	let fastIndex = 0;
 
-	for (let i = 0; i < s1.length; i++) {
-		if (s1[i].length !== s2[i].length) return false;
+	while (slowIndex < s.length - 1) {
+		const slow = s[slowIndex];
+		const fast = s[fastIndex];
 
-		for (let j = 0; j < s1[i].length; j++) {
-			if (s1[i][j] !== s2[i][j]) return false;
+		if (slow === fast) {
+			console.log(slowIndex, slow);
 		}
+
+		slowIndex++;
+		fastIndex += 2;
 	}
 
-	return true;
+	return null;
 };
 
 async function solution(file: string): Promise<number> {
 	const inputFile = Bun.file(file);
 	const text = await inputFile.text();
-	const tiltCount = 20000;
+	const tiltCount = 4000;
+	const values: number[] = [];
 
 	let map = text.split("\n");
 	let direction = 0;
-	let previousMap: string[] = [];
-	const hashes: {
-		[key in string]: {
-			count: number;
-			value: number;
-			index: number[];
-		};
-	} = {};
 
-	const values: number[] = [];
 	for (let index = 0; index < tiltCount; index++) {
 		map = tilt(map, direction);
-
-		if (direction === 3) {
-			if ((index - 23) % 28 === 0) {
-				console.log(index, getValue(map));
-			}
-			if (equals(map, previousMap)) {
-				return getValue(map);
-			} else {
-				previousMap = [...map];
-			}
-
-			const hash = Bun.hash(JSON.stringify(map)).toString();
-			if (!hashes[hash]) {
-				hashes[hash] = {
-					value: getValue(map),
-					index: [index],
-					count: 1,
-				};
-			} else {
-				hashes[hash].count++;
-				hashes[hash].index.push(index);
-			}
-
-			//hashes[hash]++;
-		}
+		values.push(getValue(map));
 
 		direction = (direction + 1) % 4;
 	}
-
-	//console.log(hashes);
 
 	return getValue(map);
 }
@@ -151,7 +126,7 @@ const testCases: Array<{
 	},
 	{
 		input: "./input/day-14-base-02.txt",
-		output: 514639,
+		output: 83516,
 	},
 ];
 
