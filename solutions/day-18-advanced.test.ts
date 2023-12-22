@@ -18,8 +18,7 @@ const getInnerArea = (vertices: vertex[]): number => {
 	sum2 = sum2 + vertices[0][0] * vertices[length - 1][1];
 
 	area = Math.abs(sum1 - sum2) / 2;
-
-	return area + 1 - vertices.length / 2;
+	return area;
 };
 
 async function solution(file: string): Promise<number> {
@@ -28,6 +27,7 @@ async function solution(file: string): Promise<number> {
 
 	let currentX: number = 0;
 	let currentY: number = 0;
+	let lineLength = 0;
 	const lineDefinition: Array<vertex> = [];
 
 	for (const line of text.split("\n")) {
@@ -37,16 +37,17 @@ async function solution(file: string): Promise<number> {
 		const distance = parseInt(hexParsed.substring(1, 6), 16);
 
 		lineDefinition.push([currentX, currentY]);
+
+		if (["1", "0"].includes(directionIndicator)) lineLength += distance;
+
 		if (directionIndicator === "0") currentX = currentX + distance;
 		if (directionIndicator === "2") currentX = currentX - distance;
 		if (directionIndicator === "3") currentY = currentY - distance;
 		if (directionIndicator === "1") currentY = currentY + distance;
 	}
 
-	console.log(lineDefinition);
-
 	const area = getInnerArea(lineDefinition);
-	return area + lineDefinition.length;
+	return area + lineLength + 1;
 }
 
 const testCases: Array<{
@@ -57,10 +58,10 @@ const testCases: Array<{
 		input: "./input/day-18-base-01.txt",
 		output: 952408144115,
 	},
-	// {
-	// 	input: "./input/day-18-base-02.txt",
-	// 	output: 7996,
-	// },
+	{
+		input: "./input/day-18-base-02.txt",
+		output: 131265059885080,
+	},
 ];
 
 describe("advent-of-code-2023 #18", () => {
